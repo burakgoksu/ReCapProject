@@ -111,18 +111,152 @@ namespace ConsoleUI
             //    Console.WriteLine(brand.BrandName);
             //}
 
-            Console.WriteLine("*******************************************************************");
-            Console.WriteLine("*******************************************************************");
-            Console.WriteLine("*******************************************************************");
+            //Console.WriteLine("*******************************************************************");
+            //Console.WriteLine("*******************************************************************");
+            //Console.WriteLine("*******************************************************************");
 
-            CarManager carManager4 = new CarManager(new EfCarDal());
-            foreach (var car in carManager4.GetCarDetails())
+            //CarManager carManager4 = new CarManager(new EfCarDal());
+            //foreach (var car in carManager4.GetCarDetails())
+            //{
+            //    Console.WriteLine(car.BrandName + " / " + car.Description + " / " + car.ColorName + " / " + car.DailyPrice);
+            //}
+
+
+            CarManager carManager = new CarManager(new EfCarDal());
+            var result = carManager.GetCarDetails();
+            if (result.Success)
             {
-                Console.WriteLine(car.BrandName + " / " + car.Description + " / " + car.ColorName + " / " + car.DailyPrice);
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.BrandName + " / " + car.Description + " / " + car.ColorName + " / " + car.DailyPrice);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
             }
 
+            Console.WriteLine("*******************************************************************");
 
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            var result1 = customerManager.GetAll();
+            if (result1.Success)
+            {
+                foreach (var customer in result1.Data)
+                {
+                    Console.WriteLine(customer.CustomerName);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result1.Message);
+            }
+            
 
+            Console.WriteLine("*******************************************************************");
+
+            var result2 = customerManager.GetCustomerById(2);
+            if (result2.Success)
+            {
+                Console.WriteLine(result2.Data.CustomerName);
+            }
+            else
+            {
+                Console.WriteLine(result2.Message);
+            }
+
+            Console.WriteLine("*******************************************************************");
+
+            // customerManager.Add(new Customer { CustomerName = "Volkan", UserId = 2 });
+
+            Console.WriteLine("*******************************************************************");
+
+            UserManager userManager = new UserManager(new EfUserDal());
+
+            var result3 = userManager.GetAll();
+            if (result3.Success)
+            {
+                foreach (var user in result3.Data)
+                {
+                    Console.WriteLine(user.FirstName + " " + user.LastName + " / " + user.Email + " / " + user.Password);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result3.Message);
+            }
+
+            Console.WriteLine("*******************************************************************");
+
+            var result4 = userManager.GetUserById(3);
+            if (result4.Success)
+            {
+                Console.WriteLine(result4.Data.FirstName);
+            }
+            else
+            {
+                Console.WriteLine(result4.Message);
+            }
+
+            Console.WriteLine("*******************************************************************");
+
+            // userManager.Add(new User { FirstName = "Kerem", LastName = "Varış", Email = "keremvaris@gmail.com", Password = "abcd123456" });
+
+            Console.WriteLine("*******************************************************************");
+
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            var result5 = rentalManager.GetAll();
+            if (result5.Success)
+            {
+                foreach (var rental in result5.Data)
+                {
+                    Console.WriteLine("Customer Id : " + rental.CustomerId +" / " + "Car Id : " + rental.CarId + " / " + "Rental Id : " + rental.RentalId + " / " + "Rental Date : " + rental.RentDate + " / " + "Rental Return : " + rental.RentDate);
+                }
+                
+            }
+            else
+            {
+                Console.WriteLine(result5.Message);
+            }
+
+            Console.WriteLine("*******************************************************************");
+
+            var result6 = rentalManager.GetRentalById(3);
+            if (result6.Success)
+            {
+                Console.WriteLine("Rental Id : " + result6.Data.RentalId);
+
+            }
+            else
+            {
+                Console.WriteLine(result6.Message);
+            }
+
+            Console.WriteLine("*******************************************************************");
+
+            //var result7 = rentalManager.GetRentalById(7);
+            //Rental deletedRental = null;
+            //if (result7.Success)
+            //{
+            //    deletedRental = result7.Data;
+
+            //}
+            //rentalManager.Delete(deletedRental);
+
+            Console.WriteLine("*******************************************************************");
+
+            var result8 = rentalManager.GetRentalDetails();
+            if (result8.Success)
+            {
+                foreach (var rental in result8.Data)
+                {
+                    Console.WriteLine(rental.CarName + " / " + rental.CustomerName + " / " + rental.UserName + " / " + rental.RentDate + " / " + rental.ReturnDate);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result8.Message);
+            }
         }
     }
 }
