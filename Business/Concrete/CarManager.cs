@@ -38,6 +38,10 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarDeleted);
         }
 
+        public IDataResult<Car> Get(int id)
+        {
+            throw new NotImplementedException();
+        }
 
         public IDataResult<List<Car>> GetAll()
         {
