@@ -2,9 +2,9 @@
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspect.Autofac;
+using Core.Entities.Concrete;
 using Core.Utilities.Result;
 using DataAccess.Abstract;
-using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -39,7 +39,7 @@ namespace Business.Concrete
 
         public IDataResult<User> GetUserById(int userId)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u => u.UserId == userId));
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Id == userId));
         }
 
         [ValidationAspect(typeof(UserValidator))]
@@ -48,6 +48,16 @@ namespace Business.Concrete
         {
             _userDal.Update(user);
             return new SuccessResult(Messages.UserUpdated);
+        }
+
+        public List<OperationClaim> GetClaims(User user)
+        {
+            return _userDal.GetClaims(user);
+        }
+
+        public User GetByMail(string email)
+        {
+            return _userDal.Get(u => u.Email == email);
         }
     }
 }
